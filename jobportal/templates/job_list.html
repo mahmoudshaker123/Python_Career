@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Job List - PythonCareers{% endblock %}
+
+{% block content %}
+<!-- Job Search Section -->
+<section class="job-search">
+    <div class="container">
+        <h2 class="display-5">Search Python Jobs</h2>
+        <form method="GET" action="{% url 'job_search' %}" class="input-group mt-4">
+            <input type="text" name="title" class="form-control" placeholder="Job title or company" value="{{ request.GET.title }}">
+            <select name="location" class="form-select">
+                <option>All Locations</option>
+                <option>Remote</option>
+                <option>Cairo</option>
+                <option>Giza</option>
+                <option>Alexandria</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Find Jobs</button>
+        </form>
+    </div>
+</section>
+
+<!-- Job List Section -->
+<div class="container my-4">
+    <h4>Available Python Jobs</h4>
+    <div class="row">
+        {% if jobs %}
+            {% for job in jobs %}
+            <div class="col-md-4 mb-3">
+                <div class="card job-card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ job.title }}</h5>
+                        <p class="card-text"><strong>Company:</strong> {{ job.company.name }}</p>
+                        <p class="card-text"><strong>Location:</strong> {{ job.location }}</p>
+                        <p class="card-text"><small>Posted {{ job.posted_at|timesince }} ago</small></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No jobs found based on your search criteria.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

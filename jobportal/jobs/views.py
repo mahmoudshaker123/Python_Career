@@ -1,12 +1,26 @@
 from django.shortcuts import render
-from rest_framework import viewsets
-from .models import Job, Company
-from .serializers import JobSerializer, CompanySerializer
+from .models import *
 
-class JobViewSet(viewsets.ModelViewSet):
-    queryset = Job.objects.all()
-    serializer_class = JobSerializer
+def index(request):
+    jobs = Job.objects.all()
+    return render(request, 'index.html', {'jobs': jobs})
 
-class CompanyViewSet(viewsets.ModelViewSet):
-    queryset = Company.objects.all()
-    serializer_class = CompanySerializer
+def job_list(request):
+    jobs = Job.objects.all()
+    return render(request, 'job_list.html', {'jobs': jobs})
+
+
+def job_search(request):
+    search_title = request.GET.get('title', '')
+    search_location = request.GET.get('location', 'All Locations')
+
+    # تصفية الوظائف بناءً على معايير البحث
+    jobs = Job.objects.all()
+
+    if search_title:
+        jobs = jobs.filter(title__icontains=search_title)  # البحث في العنوان
+    if search_location != 'All Locations':
+        jobs = jobs.filter(location__icontains=search_location)  # البحث في الموقع
+
+    # إرجاع استجابة تحتوي على الوظائف
+    return render(request, 'job_list.html', {'jobs': jobs})

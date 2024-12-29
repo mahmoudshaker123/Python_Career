@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Home - PythonCareers{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <h2 class="display-5">Discover Top Python Jobs in All Fields</h2>
+        <p>PythonCareers is your gateway to exciting opportunities in Python-related fields worldwide.</p>
+        <form method="GET" action="{% url 'job_list' %}">
+            <div class="input-group mt-4">
+                <input type="text" class="form-control" name="title" placeholder="Job title or company" value="{{ request.GET.title }}">
+                <select class="form-select" name="location">
+                    <option value="All Locations" {% if request.GET.location == 'All Locations' %}selected{% endif %}>All Locations</option>
+                    <option value="Remote" {% if request.GET.location == 'Remote' %}selected{% endif %}>Remote</option>
+                    <option value="Cairo" {% if request.GET.location == 'Cairo' %}selected{% endif %}>Cairo</option>
+                    <option value="Giza" {% if request.GET.location == 'Giza' %}selected{% endif %}>Giza</option>
+                    <option value="Alexandria" {% if request.GET.location == 'Alexandria' %}selected{% endif %}>Alexandria</option>
+                </select>
+                <button class="btn btn-primary" type="submit">Find Jobs</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Popular Searches -->
+<div class="container my-4">
+    <h4>Popular Searches</h4>
+    <div class="popular-searches">
+        <span>Data Science</span>
+        <span>Machine Learning</span>
+        <span>Web Development</span>
+        <span>Backend Engineer</span>
+        <span>AI Specialist</span>
+        <span>Remote</span>
+    </div>
+</div>
+
+<!-- Latest Jobs -->
+<div class="container my-4">
+    <h4 class="mb-4">Latest Python Jobs</h4> <!-- إضافة margin-bottom للمسافة بين العنوان والقسم التالي -->
+
+    <div class="row">
+        <!-- Job Card -->
+        {% for job in jobs %}
+        <div class="col-md-4 mb-3">
+            <div class="card job-card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ job.title }}</h5>
+                    <p class="card-text"><strong>Company:</strong> {{ job.company.name }}</p>
+                    <p class="card-text"><strong>Location:</strong> {{ job.location }}</p>
+                    <p class="card-text"><small>Posted {{ job.posted_at|timesince }} ago</small></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</div>
+
+<!-- Subscribe Section -->
+<section class="subscribe-section">
+    <h5>Stay Updated with the Latest Python Job Alerts</h5>
+    <input type="email" class="form-control" placeholder="Type your email...">
+    <button class="btn btn-light mt-2">Subscribe</button>
+</section>
+{% endblock %}
