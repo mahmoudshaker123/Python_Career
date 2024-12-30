@@ -14,7 +14,17 @@ class Job(models.Model):
     location = models.CharField(max_length=255)
     description = models.TextField()
     posted_at = models.DateTimeField(auto_now_add=True)
+    requirement = models.TextField(default='No requirements specified')  # Add default value
+    job_url = models.URLField(max_length=200, default='')
 
     def __str__(self):
         return self.title
 
+from django.db import models
+
+class Subscriber(models.Model):
+    email = models.EmailField(unique=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
