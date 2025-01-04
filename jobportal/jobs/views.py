@@ -10,7 +10,7 @@ def index(request):
 
 def job_list(request):
     jobs = Job.objects.all().order_by('-posted_at')
-    paginator = Paginator(jobs, 12)  # عرض 12 وظيفة في كل صفحة
+    paginator = Paginator(jobs, 12)  
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
